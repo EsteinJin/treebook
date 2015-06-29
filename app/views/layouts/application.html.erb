@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<%= javascript_include_tag 'ckeditor/ckeditor.js' %>
+<%= javascript_include_tag "application" %>
+<html>
+<head>
+  <title>Treebook</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <!--%= javascript_include_tag 'application', 'data-turbolinks-track' => true %-->
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="navbar navbar-inverse">
+<div class="navbar-inner">
+<div class="container">
+ <a href="#" class="brand">Treebook</a>
+ <ul class="nav">
+ <li><%= link_to "All Statuses", feed_path %></li>
+ </ul>
+
+ <ul class="nav pull-right">
+ <% if  user_signed_in? %>
+ <li><%= link_to  current_user.full_name, edit_user_registration_path %></li>
+  <li><%= link_to  "Log Out", logout_path %></li>
+
+<%else %>
+
+<li><%= link_to "Register", register_path %></li>
+<li><%= link_to "Login", login_path %></li>
+<% end %>
+ </ul>
+
+
+</div>
+</div>
+</div>
+<div class="container">
+<% flash.each do |type, message | %>
+
+	<div class="alert <%= flash_class type  %> ">
+	<button class="close" data-dismiss="alert">x</button> 
+	<%=message %>
+	</div>
+
+<%end %>
+
+
+
+<%= yield %>
+
+
+</div>
+<script type="text/javascript">
+  $(DOCUMENT).ready(function() {
+      if ($('textarea.ckeditor').length > 0) {
+          var data = $('textarea.ckeditor');
+          $.each(data, function(i) {
+              CKEDITOR.replace(data[i].id);
+          });
+      }
+  });
+</script>
+</body>
+</html>
